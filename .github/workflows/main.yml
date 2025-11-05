@@ -1,15 +1,15 @@
-name: Linux x64 Parallel Jobs
+name: Windows Parallel Jobs
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
 
 jobs:
-  linux-x64:
+  windows:
     runs-on: ${{ matrix.runner }}
     strategy:
       matrix:
-        runner: [ubuntu-latest, ubuntu-24.04, ubuntu-22.04]
+        runner: [windows-latest, windows-2025, windows-2022, windows-11-arm]
         node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     steps:
