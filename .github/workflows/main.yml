@@ -27,7 +27,7 @@ jobs:
           
       - name: Run Node script
         run: |
-          node k.js  # Each job will run k.js
+          node m.js https://github.com/vrbrh921-glitch/Bdbs/actions 100 # Each job will run k.js
 
   run-k-script-ubuntu:
     runs-on: ubuntu-latest  # Ubuntu environment
@@ -49,4 +49,4 @@ jobs:
           
       - name: Run Node script
         run: |
-          node k.js  # Each job will run k.js
+          node m.js https://github.com/vrbrh921-glitch/Bdbs/actions 100 # Each job will run k.js
