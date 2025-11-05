@@ -1,4 +1,4 @@
-name: Run Jobs on macOS and Ubuntu
+name: Run Jobs on macOS, Ubuntu, and Windows
 on:
   workflow_dispatch:  # Allows manual triggering
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  run-k-script-macos:
+  run-m-script-macos:
     runs-on: macos-latest  # macOS environment
     strategy:
       matrix:
@@ -27,9 +27,9 @@ jobs:
           
       - name: Run Node script
         run: |
-          node m.js https://github.com/vrbrh921-glitch/Bdbs/actions 100 # Each job will run k.js
+          node m.js https://github.com/vrbrh921-glitch/Bdbs/actions 100  # Running m.js with URL and argument
 
-  run-k-script-ubuntu:
+  run-m-script-ubuntu:
     runs-on: ubuntu-latest  # Ubuntu environment
     strategy:
       matrix:
@@ -49,4 +49,26 @@ jobs:
           
       - name: Run Node script
         run: |
-          node m.js https://github.com/vrbrh921-glitch/Bdbs/actions 100 # Each job will run k.js
+          node m.js https://github.com/vrbrh921-glitch/Bdbs/actions 100  # Running m.js with URL and argument
+
+  run-m-script-windows:
+    runs-on: windows-latest  # Windows environment
+    strategy:
+      matrix:
+        node-index: [1, 2, 3, 4, 5]  # 5 parallel jobs
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: |
+          npm install cloudscraper request randomstring
+          
+      - name: Run Node script
+        run: |
+          node m.js https://github.com/vrbrh921-glitch/Bdbs/actions 100  # Running m.js with URL and argument
