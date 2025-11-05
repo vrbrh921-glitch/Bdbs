@@ -1,25 +1,52 @@
-name: Windows Parallel Jobs
+name: Run Jobs on macOS and Ubuntu
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual triggering
   push:
+    branches: [ main ]
+  pull_request:
     branches: [ main ]
 
 jobs:
-  windows:
-    runs-on: ${{ matrix.runner }}
+  run-k-script-macos:
+    runs-on: macos-latest  # macOS environment
     strategy:
       matrix:
-        runner: [windows-latest, windows-2025, windows-2022, windows-11-arm]
-        node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
+        node-index: [1, 2, 3, 4, 5]  # 5 parallel jobs
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '18'
+          
       - name: Install dependencies
-        run: npm install cloudscraper request randomstring
+        run: |
+          npm install cloudscraper request randomstring
+          
       - name: Run Node script
-        run: node m.js https://github.com/vrbrh921-glitch/Bdbs/edit/main/.github/workflows/main.yml 300 ${{ matrix.node-index }} h1
+        run: |
+          node k.js  # Each job will run k.js
+
+  run-k-script-ubuntu:
+    runs-on: ubuntu-latest  # Ubuntu environment
+    strategy:
+      matrix:
+        node-index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]  # 20 parallel jobs
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: |
+          npm install cloudscraper request randomstring
+          
+      - name: Run Node script
+        run: |
+          node k.js  # Each job will run k.js
